@@ -20,7 +20,7 @@ namespace modules {
     return reader.read();
   }
 
-  /**
+  /*
    * Bootstrap module by setting up required components
    */
   battery_module::battery_module(const bar_settings& bar, string name_)
@@ -154,7 +154,7 @@ namespace modules {
     }
   }
 
-  /**
+  /*
    * Dispatch the subthread used to update the
    * charging animation when the module is started
    */
@@ -166,7 +166,7 @@ namespace modules {
     }
   }
 
-  /**
+  /*
    * Release wake lock when stopping the module
    */
   void battery_module::teardown() {
@@ -175,7 +175,7 @@ namespace modules {
     }
   }
 
-  /**
+  /*
    * Idle between polling inotify watches for events.
    *
    * If the defined interval has been reached, trigger a manual
@@ -197,7 +197,7 @@ namespace modules {
     this->inotify_module::idle();
   }
 
-  /**
+  /*
    * Update values when tracked files have changed
    */
   bool battery_module::on_event(inotify_event* event) {
@@ -225,7 +225,8 @@ namespace modules {
         return m_label_full;
       } else if (m_state == battery_module::state::DISCHARGING) {
         return m_label_discharging;
-      } else {
+      } 
+      else {
         return m_label_charging;
       }
     }();
@@ -244,7 +245,7 @@ namespace modules {
     return true;
   }
 
-  /**
+  /*
    * Get the output format based on state
    */
   string battery_module::get_format() const {
@@ -252,12 +253,13 @@ namespace modules {
       return FORMAT_CHARGING;
     } else if (m_state == battery_module::state::DISCHARGING) {
       return FORMAT_DISCHARGING;
-    } else {
+    } 
+    else {
       return FORMAT_FULL;
     }
   }
 
-  /**
+  /*
    * Generate module output using defined drawtypes
    */
   bool battery_module::build(builder* builder, const string& tag) const {
@@ -275,14 +277,15 @@ namespace modules {
       builder->node(m_label_discharging);
     } else if (tag == TAG_LABEL_FULL) {
       builder->node(m_label_full);
-    } else {
+    } 
+    else {
       return false;
     }
 
     return true;
   }
 
-  /**
+  /*
    * Get the current battery state
    */
   battery_module::state battery_module::current_state() {
@@ -290,12 +293,13 @@ namespace modules {
       return battery_module::state::DISCHARGING;
     } else if (read(*m_capacity_reader) < m_fullat) {
       return battery_module::state::CHARGING;
-    } else {
+    } 
+    else{
       return battery_module::state::FULL;
     }
   }
 
-  /**
+  /*
    * Get the current capacity level
    */
   int battery_module::current_percentage() {
@@ -309,15 +313,15 @@ namespace modules {
     return percentage;
   }
 
-  /**
-  * Get the current power consumption
-  */
+  /*
+   * Get the current power consumption
+   */
   string battery_module::current_consumption() {
     return read(*m_consumption_reader);
   }
 
-  /**
-   * Get estimate of remaining time until fully dis-/charged
+  /*
+   * Get estimate of remaining time until fully discharged
    */
   string battery_module::current_time() {
     struct tm t {
@@ -338,7 +342,7 @@ namespace modules {
     return {buffer};
   }
 
-  /**
+  /*
    * Subthread runner that emits update events to refresh <animation-charging>
    * or <animation-discharging> in case they are used. Note, that it is ok to
    * use a single thread, because the two animations are never shown at the
