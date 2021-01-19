@@ -1,7 +1,7 @@
 #include "modules/date.hpp"
 #include "drawtypes/label.hpp"
-
 #include "modules/meta/base.inl"
+
 
 POLYBAR_NS
 
@@ -78,7 +78,8 @@ namespace modules {
       } else {
         builder->node(m_label);
       }
-    } else {
+
+     else {
       return false;
     }
 
